@@ -1,0 +1,1 @@
+﻿var __testDataSource={items:[{dataFilePath:'Default.xlsx',dataFileFormat:'excel',dataFileFolder:'C:\\Users\\demo\\Documents\\Unified Functional Testing\\uftone-ai-aos-for-340\\uftone-ai-aos-desktop-and-app\\Res3',namePairs:[]}]};

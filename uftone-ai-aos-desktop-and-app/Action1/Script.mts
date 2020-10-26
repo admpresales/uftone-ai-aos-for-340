@@ -1,12 +1,15 @@
-﻿foo = 1
+﻿foo = 1 ' in case you want to set a breakpoint
+	
 ' context is set completely differently for mobile devices, vs desktop browsers
 ' I strongly recommend that you have ALL browsers closed before running this test
 ' Otherwise -browsers are often not unique, then Smart ID significantly slows replay
-if datatable.value("Browser") = "" then
+
+if datatable.value("device_ostype", dtGlobalSheet) <> "Browser" then
 	Set oDevice=Device("Class Name:=Device","ostype:=" & datatable.value("device_ostype") ,"id:=" & datatable.value("device_id"))
 	Set oApp=oDevice.App("Class Name:=App","identifier:=" & datatable.value("app_identifier") ,"instrumented:=True")		
 	Set	LaunchEnvironment=oDevice
-	oApp.Launch Install, Restart
+'	oApp.Launch Install, Restart ' first time to install
+	oApp.Launch Restart ' other times to install
 	AIUtil.SetContext oDevice
 	AIUtil("hamburger_menu").Click
 else
@@ -16,6 +19,13 @@ else
 End If
 
 ' here is the key advantage to AI object recognition
+If AIUtil.FindTextBlock("Sign out").Exist (3) then ' this can happen if last run didn't succed in logging out
+	AIUtil.FindTextBlock("Sign out").Click ' really shouldn't need these
+	AIUtil.FindTextBlock("Yes").Click
+	wait 2
+End If	
+
+'Browser("Advantage Shopping").Highlight
 
 AIUtil("profile").Click
 AIUtil("input", "USER NAME").Highlight
@@ -26,33 +36,21 @@ AIUtil("button", "LOGIN").Click
 ' some mobile devices, sometimes have a prompt to allow access
 if AIUtil.FindTextBlock("NO").Exist (5) then
 	AIUtil.FindTextBlock("NO").Click
+	
 End If
 
-' for reasons not understood, the AIUtile("Search") on browsers is NOT setting the value for the search string
-' This can be seen as a feature - you can always revert to attribute based steps
-'if datatable.value("Browser") = "" then
-'else
-'	Browser("Advantage Shopping").Page("Advantage Shopping").WebEdit("mobile_search").Set "17t" @@ script infofile_;_ZIP::ssf1.xml_;_
-'	end if
-'
-'AIUtil("search").Search "17t"
-'AIUtil.FindText("HP ENVY -17t").Click
-'
-' in order to logout on mobile apps, you have to click these to objects to make the profile control visible
-if datatable.value("Browser") = "" then
-	AIUtil("left_triangle").Click
+
+' Logout is a case where the GUI interface looks completely different
+Select case datatable.value("device_ostype")
+Case "iOS", "ANDROID"
 	AIUtil("hamburger_menu").Click
-end if
-
-AIUtil("profile").Click
-
-' and this is a case where the GUI interface looks completely different.
-if datatable.value("Browser") = "" then
-	AIUtil.FindTextBlock("YES").Click
-else
 	AIUtil.FindTextBlock("Sign out").Click
-End If
-
+	AIUtil.FindTextBlock("Yes").Click
+	oDevice.CloseViewer
+Case "Browser"
+	AIUtil("profile").Click
+	AIUtil.FindTextBlock("Sign out").Click
+end Select
 
 
 
