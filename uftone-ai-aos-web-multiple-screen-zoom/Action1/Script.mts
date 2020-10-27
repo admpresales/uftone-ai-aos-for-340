@@ -1,5 +1,5 @@
 ﻿set mySendKeys = CreateObject("WScript.shell")
-' starting at 175% zoom
+' starting with AOS open and at 175% zoom
 For Iterator = 1 To 4 Step 1
 		
 	AIUtil.SetContext Browser("Advantage Shopping")
