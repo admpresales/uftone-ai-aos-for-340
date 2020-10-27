@@ -9,7 +9,7 @@ if datatable.value("device_ostype", dtGlobalSheet) <> "Browser" then
 	Set oApp=oDevice.App("Class Name:=App","identifier:=" & datatable.value("app_identifier") ,"instrumented:=True")		
 	Set	LaunchEnvironment=oDevice
 '	oApp.Launch Install, Restart ' first time to install
-	oApp.Launch Restart ' other times to install
+	oApp.Launch Restart ' other times to install 
 	AIUtil.SetContext oDevice
 	AIUtil("hamburger_menu").Click
 else
