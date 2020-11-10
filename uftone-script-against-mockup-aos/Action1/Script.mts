@@ -1,4 +1,4 @@
-﻿ExitAction ' comment this out if you want to run this action
+﻿'ExitAction ' comment this out if you want to run this action
 
 Dim BrowserExecutable
 Dim BrowserName
@@ -23,13 +23,23 @@ AIUtil.SetContext AppContext																'Tell the AI engine to point at the 
 '===========================================================================================
 'BP:  View products from home page
 '===========================================================================================
+AIUtil.FindTextBlock("Speakers").Click
+AIUtil.FindTextBlock("pvantageDEMO").Click
 
 '===========================================================================================
 'BP:  Login
 '===========================================================================================
+AIUtil("profile").Click
+
+
+AIUtil("input", "Username").Type "Mercury"
+AIUtil("input", "Password").Type "Mercury"
+AIUtil("button", "Sign In").Click
 
 '===========================================================================================
 'BP:  Logout
 '===========================================================================================
+AIUtil("profile").Click
+AIUtil.FindTextBlock("Sign out").Click
 
 AppContext.Close 'Close the application at the end of your script

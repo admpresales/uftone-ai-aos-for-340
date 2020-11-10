@@ -1,4 +1,4 @@
-﻿'ExitAction ' comment this out if you want to run this action
+﻿ExitAction ' comment this out if you want to run this action
 
 Dim BrowserExecutable
 Dim BrowserName
